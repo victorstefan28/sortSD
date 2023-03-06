@@ -15,6 +15,12 @@ def sort_numarare(v, n, mod): # pt radix
         v[i] = out[i]
 def sort_num(v):
     sort_numarare(v, max(v), max(v))
+
+def sortat(v):
+    for i in range(1,len(v)):
+        if v[i-1] > v[i]:
+            return "Nu"
+    return "Da"
 def radix_sort(v):
     nmax = max(v)
     p = 1
@@ -36,15 +42,18 @@ def main():
     print(teste)
 
     sortari = [radix_sort]
-    for sortare in sortari:
-        for test in teste:
-            L = [random.randint(1, test[1]) for _ in range(test[0])]
+    for test in teste:
+        init = [random.randint(1, test[1]) for _ in range(test[0])]
+        for sortare in sortari:
+            L = init.copy()
             inc = time.time()
-            #sort_numarare(L, len(L), 101)
             sortare(L)
             sf = time.time()
-            print(f"{str(sortare.__name__)} a durat {round(sf-inc, 5)} secunde pentru {test[0]} valori in intervalul [1, {test[1]}]")
-
+            print(f"{str(sortare.__name__)} a durat {round(sf-inc, 5)} secunde pentru {test[0]} valori in intervalul [1, {test[1]}], {sortat(L)}")
+        inc = time.time()
+        init.sort()
+        sf = time.time()
+        print(f"Sortarea din python a durat {round(sf-inc, 5)} secunde pentru {test[0]} valori in intervalul [1, {test[1]}], {sortat(init)}")
 
 
 
