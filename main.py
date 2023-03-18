@@ -18,6 +18,8 @@ def sort_numarare(v, n, mod): # pt radix
 
 
 def insertion_sort(v):
+    if len(v)>10**4:
+        return "fail"
     for i in range(len(v)):
         x = v[i]
         j = i-1
@@ -105,7 +107,7 @@ def q_sort(v, st, dr):
 def q_sort_call(v):
     if sortat(v) == "Da":
         return
-    if (max(v)-min(v)<=2 and len(v) > 10**4) or (max(v)-min(v)<=1 and len(v) > 10**3):
+    if (max(v)-min(v)<=10):
         print("Q-sort nu poate sorta->recursion stack overflow") #
         return "fail"
     q_sort(v,0,len(v)-1)
@@ -114,12 +116,12 @@ def radix_sort(v):
     nmax = max(v)
     p = 1
     putere_doi = 1
-    print(nmax)
+
     x = math.sqrt(nmax)
     while x>2:
         putere_doi+=1
         x//=2
-    print(putere_doi, 2**putere_doi)
+
     #alegem o baza favorabila-> observam ca pt numere mari bazele mici, 2^2,3,4,5 nu dau rezultate decente, nu vrem sa impartim nici de prea multe ori, nici de prea putine
     #daca alegem ca puterea lui 2 sa fie nr de factori 2 din radicalul maximului garantim minim o impartire(?)
     _radix = max(2**putere_doi, 8)
@@ -146,15 +148,17 @@ def main():
         for sortare in sortari:
             L = init.copy()
             inc = time.time()
+            #for i in range(1000):
             rez = sortare(L)
             sf = time.time()
             if rez!="fail":
-                print(f"{(str(sortare.__name__)).split('_sort')[0]}-sort a durat {round(sf-inc, 5)} secunde pentru {test[0]} valori in intervalul [1, {test[1]}], {sortat(L)}")
-
+                print(f"{(str(sortare.__name__)).split('_sort')[0]}-sort a durat {round(sf-inc, 5)} secunde pentru {test[0]} valori in intervalul [{min(L)}, {max(L)}], {sortat(L)}")
+            else:
+                print(f"{(str(sortare.__name__)).split('_sort')[0]}-sort nu poate sorta")
         inc = time.time()
         init.sort()
         sf = time.time()
-        print(f"Sortarea din python a durat {round(sf-inc, 5)} secunde pentru {test[0]} valori in intervalul [1, {test[1]}], {sortat(init)}")
+        print(f"Sortarea din python a durat {round(sf-inc, 5)} secunde pentru {test[0]} valori in intervalul [[{min(L)}, {max(L)}], {sortat(init)}")
 
 
 
